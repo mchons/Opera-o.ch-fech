@@ -331,7 +331,27 @@ async function salvar(){
 function shell(){
  ed.hidden=false;
  const cx=(h,p,b)=>ed.innerHTML=`<div class="cx"><h2>${h}</h2><p>${p}</p>${b||""}</div>`;
- if(!fb)return cx("Editor Chófech","Preencha a configuração do Firebase (FB) no início do script para entrar.");
+ if(!fb)return cx("Editor Chófech","// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCQ1tUjv-OaqotLkkDkxi9WZvpxg37SbKc",
+  authDomain: "operacao-chofech.firebaseapp.com",
+  projectId: "operacao-chofech",
+  storageBucket: "operacao-chofech.firebasestorage.app",
+  messagingSenderId: "192960923627",
+  appId: "1:192960923627:web:56dcf035e9ca9a672c7bae",
+  measurementId: "G-8B4JJTF594"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);");
  if(!user)return cx("Editor Chófech","Área restrita ao dono do projeto.",`<button class="pri" data-a="entrar">Entrar com Google</button>`);
  if(user.email!==DONO)return cx("Acesso restrito",E(user.email)+" não tem permissão.",`<button data-a="sair">Sair</button>`);
  ed.innerHTML=`<div class="bar"><b>Editor Chófech</b><span>${E(user.email)}</span><button data-a="sair">Sair</button></div><div class="cx"><select id="sel"></select><button data-a="nova">Nova em branco</button><button data-a="dup">Duplicar</button></div><div id="fm"></div><div class="rod"><span id="st"></span><button data-a="salvar">Salvar</button><button data-a="prev">Pré-visualizar</button><button class="pri" data-a="link">Salvar e copiar link</button></div>`;
