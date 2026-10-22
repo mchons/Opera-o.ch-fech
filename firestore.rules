@@ -1,0 +1,11 @@
+// ADICIONE este bloco às regras que você já tem (não substitua as regras de outros apps).
+// Troque o e-mail pelo seu.
+function donoChofech() {
+  return request.auth != null
+    && request.auth.token.email == "seu-email@gmail.com"
+    && request.auth.token.email_verified == true;
+}
+match /propostas/{id} {
+  allow get: if true;                    // quem tem o link vê a proposta
+  allow list, create, update, delete: if donoChofech();
+}
