@@ -1,11 +1,18 @@
-// ADICIONE este bloco às regras que você já tem (não substitua as regras de outros apps).
-// Troque o e-mail pelo seu.
+// ADICIONE estes blocos às regras que você já tem (não apague as regras de outros apps).
+// Troque o e-mail pelo seu e-mail Google de administrador.
 function donoChofech() {
   return request.auth != null
     && request.auth.token.email == "seu-email@gmail.com"
     && request.auth.token.email_verified == true;
 }
 match /propostas/{id} {
-  allow get: if true;                    // quem tem o link vê a proposta
+  // o administrador, ou o cliente vinculado a esta proposta
+  allow get: if donoChofech() || (request.auth != null
+    && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
+    && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.propostaId == id);
+  allow list, create, update, delete: if donoChofech();
+}
+match /usuarios/{uid} {
+  allow get: if donoChofech() || (request.auth != null && request.auth.uid == uid);
   allow list, create, update, delete: if donoChofech();
 }
